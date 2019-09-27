@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-button v-on:click="getList">司机</el-button>
+      <el-button v-on:click="getList('1')">司机</el-button>
       <el-button>乘客</el-button>
     </el-row>
     <el-table
@@ -19,6 +19,11 @@
           width="180">
       </el-table-column>
     </el-table>
+    <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="1000">
+    </el-pagination>
   </div>
 
 </template>
@@ -35,13 +40,15 @@
     },
     return: {},
     methods: {
-      getList() {
-        // this.tableData = taxiList;
-        // 发送get请求
+      getList(type) {
+        var data = this.$qs.stringify({
+          "type": type,
+          "page":1,
+          "size":2
+        });
         this.axios
-        .get('/api/selectList')
+        .post('/api/taxiInfo/selectPage', data)
         .then(response => (this.tableData = response.data.data))
-
       }
     }
   }

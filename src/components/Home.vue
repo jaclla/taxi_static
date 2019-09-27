@@ -19,8 +19,8 @@
           <el-menu default-active="1" class="el-menu-vertical-demo" @select="handleSelect">
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-message"></i>去拼车</template>
-              <el-menu-item index="1">发布信息</el-menu-item>
-<!--              <el-menu-item index="2">表单管理</el-menu-item>-->
+              <el-menu-item index="1">信息列表</el-menu-item>
+              <el-menu-item index="2">发布信息</el-menu-item>
             </el-submenu>
           </el-menu>
         </el-aside>
@@ -58,11 +58,11 @@
       handleSelect (key, keyPath) {
         switch (key) {
           case '1':
-            this.$router.push('/product')
+            this.$router.push('/InfoList')
             break
-          // case '2':
-          //   this.$router.push('/forms')
-          //   break
+          case '2':
+            this.$router.push('/InfoRelease')
+            break
         }
       }
     }
