@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+import home from '@/components/Home' // 需要几个页面，引几个
+import product from '@/components/product'
+// import forms from '@/components/forms'
 
 Vue.use(Router)
 
@@ -8,16 +10,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      name: '去拼车',
+      component: home,
+      children: [
+        {path: '/product', component: product, name: '发布信息'}
+        // {path: '/forms', component: forms, name: '表单管理'}
+        // { path: '/strategy', component: strategy, name: '瞎画的' },
+      ]
     }
   ]
 })

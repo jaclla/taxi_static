@@ -1,13 +1,15 @@
 import Vue from 'vue'
-import App from './App.vue'
+import home from './components/Home.vue'
 import router from './router'
-import store from './store'
-import './registerServiceWorker'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import axios from 'axios'
 
 Vue.config.productionTip = false
-
+Vue.prototype.axios = axios
+Vue.use(router)
+Vue.use(Element)
 new Vue({
   router,
-  store,
-  render: h => h(App)
+  render: h => h(home)
 }).$mount('#app')
