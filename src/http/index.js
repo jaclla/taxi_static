@@ -2,9 +2,6 @@ import axios from 'axios'
 import qs from 'qs'
 import {Message, Notification} from 'element-ui'
 import Vue from 'vue'
-import store from '@/store'
-import router from '@/router'
-
 Vue.component(Message.name, Message)
 
 axios.interceptors.request.use(config => {

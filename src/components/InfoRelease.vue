@@ -3,8 +3,8 @@
            ref="ruleForm">
     <div style="margin: 30px;">
       <el-radio-group size="medium" v-model="infoType">
-        <el-radio-button label="1" >我要开车</el-radio-button>
-        <el-radio-button label="0" >我要上车</el-radio-button>
+        <el-radio-button label="1">我要开车</el-radio-button>
+        <el-radio-button label="0">我要上车</el-radio-button>
       </el-radio-group>
     </div>
     <el-form-item label="选择服务" prop="serviceType">
@@ -54,6 +54,19 @@
 <script type="text/ecmascript-6">
   export default {
     data() {
+      var price = (rule, value, callback) => {
+        var reg = /^[1-9]\d*$/;
+        if (!value) {
+          callback(new Error('不能为空'));
+        }
+        setTimeout(() => {
+          if (!reg.test(value)) {
+            callback(new Error('请输入正整数'));
+          } else {
+            callback();
+          }
+        }, 100);
+      };
       var serviceType;
       var region = [];
       return {
@@ -66,7 +79,7 @@
           email: '',
           description: '',
           wechat: '',
-          serverType: ''
+          serverType: '',
         },
         rules: {
           serviceType: [
@@ -74,10 +87,11 @@
           ],
           region: [
             {required: true, message: '请选择服务区域', trigger: 'change'}
-          ], price: [
-            {required: true, message: '请输入价格', trigger: 'change'}
-          ], subscriptionDate: [
-            {required: true, message: '请输入至少订阅时间', trigger: 'change'}
+          ],
+          price: [
+            {required: true, validator: price, trigger: 'blur'}],
+          subscriptionDate: [
+            {required: true, validator: price, trigger: 'blur'}
           ]
         }
       };
@@ -99,6 +113,11 @@
             });
             this.axios
             .post('/api/taxiInfo/insert', data)
+            this.$message({
+              type: 'info',
+              message: `发布成功！`
+            });
+            this.lookDetail();
           } else {
             console.log('error submit!!');
             return false;
@@ -107,6 +126,11 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      lookDetail() {
+        this.$router.push({
+          name: "信息列表" // 要跳转的路径的 name,可在 router 文件夹下的 index.js 文件内找
+        })
       }
     },
     created() {
@@ -116,7 +140,6 @@
         (this.serviceType = response.data.data.serviceType)
         (this.region = response.data.data.region)
       })
-
     }
   }
 </script>

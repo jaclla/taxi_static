@@ -1,40 +1,55 @@
 <template>
   <div>
-    <el-row>
-      <el-button v-on:click="getList('1')">司机</el-button>
-      <el-button>乘客</el-button>
-    </el-row>
+
+    <div style="margin: 30px;">
+      <el-radio-group @change="getList" size="medium" v-model="infoType">
+        <el-radio-button label="1">我要开车</el-radio-button>
+        <el-radio-button label="0">我要上车</el-radio-button>
+      </el-radio-group>
+    </div>
     <el-table
         :data="tableData"
         stripe
         style="width: 100%">
       <el-table-column
-          prop="id"
-          label="id"
-          width="180">
+          align="center"
+          label="服务类型"
+          prop="serviceType" width="180">
       </el-table-column>
       <el-table-column
-          prop="userName"
-          label="姓名"
-          width="180">
+          align="center"
+          label="价格"
+          prop="price" width="180">
+      </el-table-column>
+      <el-table-column
+          align="center"
+          label="至少订阅时间"
+          prop="subscriptionDate" width="180">
+      </el-table-column>
+      <el-table-column
+          align="center"
+          label="描述"
+          prop="description"
+          width="%50"
+      >
+      </el-table-column>
+      <el-table-column
+          align="center"
+          label=""
+          prop="outTime" width="180">
       </el-table-column>
     </el-table>
-    <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="1000">
-    </el-pagination>
   </div>
 
 </template>
 
 <script type="text/ecmascript-6">
-  // import {taxiList} from '@/assets/js/ajax'
   export default {
     data() {
       // eslint-disable-next-line no-unused-vars
-      var tableData = []
+      var tableData = [];
       return {
+        infoType: '1',
         tableData
       }
     },
@@ -42,14 +57,15 @@
     methods: {
       getList(type) {
         var data = this.$qs.stringify({
-          "type": type,
-          "page":1,
-          "size":2
+          "type": type
         });
         this.axios
-        .post('/api/taxiInfo/selectPage', data)
+        .post('/api/taxiInfo/selectList', data)
         .then(response => (this.tableData = response.data.data))
       }
+    },
+    created() {
+      this.getList('1')
     }
   }
 </script>
