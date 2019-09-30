@@ -2,17 +2,7 @@
   <div id="app">
     <el-container class="con_section">
       <el-header class="blueheader">
-        <h2 class="headlogo">欢迎使用去拼车</h2>
-        <el-col :span="3" class="userinfo">
-          <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>查看</el-dropdown-item>
-              <el-dropdown-item>新增</el-dropdown-item>
-              <el-dropdown-item>删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-col>
+        <h2 class="headlogo">欢迎使用    去拼车</h2>
       </el-header>
       <el-container>
         <el-aside style="flex: 0 0 230px;width: 230px;background:#eef1f6">
@@ -58,7 +48,7 @@
       handleSelect (key, keyPath) {
         switch (key) {
           case '1':
-            this.$router.push('/InfoList')
+            this.$router.push('/')
             break
           case '2':
             this.$router.push('/InfoRelease')

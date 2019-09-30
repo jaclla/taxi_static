@@ -112,7 +112,7 @@
               "email": this.ruleForm.email
             });
             this.axios
-            .post('/api/taxiInfo/insert', data)
+            .post('/taxiInfo/insert', data)
             this.$message({
               type: 'info',
               message: `发布成功！`
@@ -135,7 +135,7 @@
     },
     created() {
       this.axios
-      .get('/api/common/dictionary')
+      .get('/common/dictionary')
       .then(response => {
         (this.serviceType = response.data.data.serviceType)
         (this.region = response.data.data.region)

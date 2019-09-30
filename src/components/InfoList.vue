@@ -18,12 +18,12 @@
       </el-table-column>
       <el-table-column
           align="center"
-          label="价格"
+          label="价格(RMB/月)"
           prop="price" width="180">
       </el-table-column>
       <el-table-column
           align="center"
-          label="至少订阅时间"
+          label="至少订阅时间(月)"
           prop="subscriptionDate" width="180">
       </el-table-column>
       <el-table-column
@@ -60,12 +60,16 @@
           "type": type
         });
         this.axios
-        .post('/api/taxiInfo/selectList', data)
+        .post('/taxiInfo/selectList', data)
         .then(response => (this.tableData = response.data.data))
       }
     },
     created() {
       this.getList('1')
+    },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      "$route":"getList(1)"
     }
   }
 </script>
