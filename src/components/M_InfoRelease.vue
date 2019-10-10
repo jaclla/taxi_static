@@ -1,7 +1,7 @@
 <template>
   <el-form :model="ruleForm" :rules="rules" class="demo-ruleForm" label-width="100px"
            ref="ruleForm">
-    <div style="margin: 30px;">
+    <div align="center" style="margin: 30px;">
       <el-radio-group size="medium" v-model="infoType">
         <el-radio-button label="1">我要开车</el-radio-button>
         <el-radio-button label="0">我要上车</el-radio-button>
@@ -36,13 +36,13 @@
     <el-form-item label="联系方式保密" prop="secrecyLabel">
       <el-switch v-model="ruleForm.secrecyLabel"></el-switch>
     </el-form-item>
-    <el-form-item label="微信号">
+    <el-form-item label="微信号" prop="asdfasd">
       <el-input type="text" v-model="ruleForm.wechat"></el-input>
     </el-form-item>
-    <el-form-item label="联系邮箱">
+    <el-form-item label="联系邮箱" prop="email">
       <el-input type="text" v-model="ruleForm.email"></el-input>
     </el-form-item>
-    <el-form-item label="描述">
+    <el-form-item label="描述" prop="description">
       <el-input type="textarea" v-model="ruleForm.description"></el-input>
     </el-form-item>
     <el-form-item>
@@ -50,6 +50,7 @@
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
   </el-form>
+
 </template>
 <script type="text/ecmascript-6">
   export default {
@@ -67,7 +68,7 @@
           }
         }, 100);
       };
-      var serviceType;
+      var serviceType = [];
       var region = [];
       return {
         serviceType,
@@ -93,6 +94,15 @@
           subscriptionDate: [
             {required: true, validator: price, trigger: 'blur'}
           ]
+          , description: [
+            {max: 50, message: '请将留言控制在 50 字以内', trigger: 'blur'}
+          ]
+          , wechat: [
+            {max: 20, message: '请将留言控制在 20 字以内', trigger: 'blur'}
+          ]
+          , email: [
+            {type: 'email', max: 20, message: '请输入正确的邮箱', trigger: 'blur'}
+          ]
         }
       };
     },
@@ -109,15 +119,21 @@
               "secrecyLabel": this.ruleForm.secrecyLabel,
               "description": this.ruleForm.description,
               "wechat": this.ruleForm.wechat,
-              "email": this.ruleForm.email
+              "email": this.ruleForm.email,
+              "token": this.$storage.get('token')
             });
             this.axios
-            .post('/taxiInfo/insert', data)
-            this.$message({
-              type: 'info',
-              message: `发布成功！`
-            });
-            this.lookDetail();
+            .post('/taxiInfo/insert', data).then(response => {
+              if (response.data.code === 200) {
+                this.$message({
+                  type: 'success',
+                  message: '发布成功!'
+                });
+                this.lookDetail();
+              }else {
+                this.$message.error(response.data.msg);
+              }
+            })
           } else {
             console.log('error submit!!');
             return false;
@@ -137,7 +153,7 @@
       this.axios
       .get('/common/dictionary')
       .then(response => {
-        (this.serviceType = response.data.data.serviceType)
+        (this.serviceType = response.data.data.serviceType);
         (this.region = response.data.data.region)
       })
     }

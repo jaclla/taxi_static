@@ -3,7 +3,7 @@
 // if you need a custom webpack configuration you can uncomment the following import
 // and then use the `file:preprocessor` event
 // as explained in the cypress docs
-// https://docs.cypress.ioInfoReleaseplugins/preprocessors-api.html#Examples
+// https://docs.cypress.ioPc_InfoReleaseplugins/preprocessors-api.html#Examples
 
 /* eslint-disable import/no-extraneous-dependencies, global-require, arrow-body-style */
 // const webpack = require('@cypress/webpack-preprocessor')
