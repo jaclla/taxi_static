@@ -120,7 +120,8 @@
               "description": this.ruleForm.description,
               "wechat": this.ruleForm.wechat,
               "email": this.ruleForm.email,
-              "token": this.$storage.get('token')
+              "token": this.$storage.get('token'),
+              "username":this.$storage.get('username')
             });
             this.axios
             .post('/taxiInfo/insert', data).then(response => {

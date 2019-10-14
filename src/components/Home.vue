@@ -4,7 +4,6 @@
   <div id="app">
     <el-container class="con_section">
       <el-header class="blueheader">
-
         <div style="float:left;">
           <el-button @click="changeStatus" circle icon="el-icon-s-unfold" size="medium"
                      type="success"></el-button>
@@ -13,48 +12,25 @@
           <span>欢迎使用 去拼车</span></h2>
       </el-header>
       <el-container>
-        <div v-if="showPrise">
-          <el-aside style="flex: 0 0 230px;width: 230px;background:#eef1f6" width="initial">
-            <el-menu @select="handleSelect" class="el-menu-vertical-demo" default-active="1">
-              <el-submenu index="1">
-                <template slot="title"><i class="el-icon-message"></i>去拼车</template>
-                <el-popover
-                    placement="right"
-                    trigger="click"
-                    width="100%">
-                  <vue-telegram-login
-                      @callback="login"
-                      mode="callback"
-                      telegram-login="qupinche_bot"/>
-                  <span slot="reference">
-                                      <el-menu-item>
-                                                        <i class="el-icon-s-promotion"></i>
-                                        {{loginLabel}}
-                                      </el-menu-item>
-                      </span>
-                </el-popover>
-                <el-menu-item index="1">
-                  <i class="el-icon-s-order"></i>
-                  信息列表
-                </el-menu-item>
-                <el-menu-item index="2">
-                  <i class="el-icon-edit"></i>
-                  发布信息
-                </el-menu-item>
-              </el-submenu>
-            </el-menu>
-          </el-aside>
-        </div>
+        <el-menu :collapse="isCollapse"
+                 @select="handleSelect" class="el-menu-vertical-demo" default-active="1">
+          <el-menu-item index="#">
+            <i class="el-icon-s-promotion"></i>
+            <span slot="title">{{loginLabel}}</span>
+          </el-menu-item>
+          <el-menu-item index="1">
+            <i class="el-icon-s-order"></i>
+            <span slot="title">信息列表</span>
+          </el-menu-item>
+          <el-menu-item index="2">
+            <i class="el-icon-edit"></i>
+            <span slot="title">发布信息</span>
+          </el-menu-item>
+        </el-menu>
         <!-- Callback mode -->
-
         <el-main class="home_main">
           <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">{{$route.name}}</strong>
-            <el-breadcrumb class="breadcrumb-inner" separator="/">
-              <el-breadcrumb-item :key="item.path" v-for="item in $route.matched">
-                {{ item.name }}
-              </el-breadcrumb-item>
-            </el-breadcrumb>
+
           </el-col>
           <el-col :span="24">
             <div style="margin-top:10px">
@@ -64,24 +40,31 @@
         </el-main>
       </el-container>
     </el-container>
+    <el-dialog
+        title="登录"
+        :visible.sync="dialogVisible"
+        width="20%" center>
+         <vue-telegram-login
+             @callback="login"
+             mode="callback"
+             telegram-login="qupinche_bot"></vue-telegram-login>
+    </el-dialog>
   </div>
 </template>
 
-
 <script>
   import {vueTelegramLogin} from 'vue-telegram-login'
-
+  import ElLink from "element-ui/packages/link/src/main";
   export default {
-    name: 'your-component',
-    components: {vueTelegramLogin},
-
+    name: 'app',
+    components: {ElLink, vueTelegramLogin},
     data() {
-      var loginLabel=''
+      var loginLabel = ''
       return {
         collapseBtnClick: false,
         isCollapse: true,
-        showPrise: false,
-        loginLabel
+        loginLabel,
+        dialogVisible: false
       }
     },
     methods: {
@@ -95,7 +78,6 @@
             type: 'error'
           });
         } else {
-          console.log(user)
           var data = this.$qs.stringify({
             "id": user.id,
             "authDate": user.auth_date,
@@ -117,6 +99,8 @@
               this.$storage.set('token', user.hash, {ttl: user.auth_date})
               this.$storage.set('username', user.username, {ttl: user.auth_date})
               this.loginLabel = this.$storage.get('username')
+              this.loginItem = '给他留言'
+              location.reload();
             } else {
               this.$message.error(response.data.msg);
             }
@@ -139,10 +123,13 @@
               this.$router.push('/M_InfoRelease')
             }
             break
+          case '#':
+            this.dialogVisible=true
+            break
         }
       },
       changeStatus() {
-        this.showPrise = !this.showPrise;
+        this.isCollapse = !this.isCollapse;
       },
       _isMobile() {
         let flag = navigator.userAgent.match(
@@ -151,7 +138,7 @@
       }
     }, created() {
       this.handleSelect('1')
-      this.loginLabel = this.$storage.get('username','请先登录')
+      this.loginLabel = this.$storage.get('username', '请先登录')
     }
   }
 
@@ -160,6 +147,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+  }
+
   .con_section {
     position: absolute;
     top: 0px;
