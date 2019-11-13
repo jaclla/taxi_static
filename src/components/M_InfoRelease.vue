@@ -123,7 +123,7 @@
               "token": this.$storage.get('token')
             });
             this.axios
-            .post('/taxiInfo/insert', data).then(response => {
+            .post('/api/taxiInfo/insert', data).then(response => {
               if (response.data.code === 200) {
                 this.$message({
                   type: 'success',
@@ -151,7 +151,7 @@
     },
     created() {
       this.axios
-      .get('/common/dictionary')
+      .get('/api/common/dictionary')
       .then(response => {
         (this.serviceType = response.data.data.serviceType);
         (this.region = response.data.data.region)

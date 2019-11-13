@@ -108,7 +108,7 @@
           "region": region
         });
         this.axios
-        .post('/taxiInfo/selectList', data)
+        .post('/api/taxiInfo/selectList', data)
         .then(response => (this.tableData = response.data.data))
       },
       selectDetails(row) {
@@ -140,7 +140,7 @@
     created() {
       this.getList('1')
       this.axios
-      .get('/common/dictionary')
+      .get('/api/common/dictionary')
       .then(response => {
         (this.serviceType = response.data.data.serviceType);
         (this.regionList = response.data.data.region)

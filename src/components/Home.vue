@@ -89,7 +89,7 @@
           });
           //存储用户信息
           this.axios
-          .post('/auth/login', data)
+          .post('/api/auth/login', data)
           .then(response => {
             if (response.data.code === 200) {
               this.$message({
