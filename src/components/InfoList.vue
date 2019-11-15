@@ -96,13 +96,16 @@
   </span>
     </el-dialog>
     <el-dialog
+        title="登录"
+        style="text-align:center;"
         :visible.sync="dialogVisible"
-        center
-        title="登录" width="20%">
+        width="55%">
       <vue-telegram-login
+          class=" el-link--success is-underline"
+          style="box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 12px 0px;"
           @callback="login"
           mode="callback"
-          telegram-login="qupinche_bot"/>
+          telegram-login="qupinche_bot"></vue-telegram-login>
     </el-dialog>
   </div>
 </template>
