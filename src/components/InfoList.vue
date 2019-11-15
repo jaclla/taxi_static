@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div align="center" style="margin: 30px;">
       <el-radio-group @change="getList(infoType,serviceTypeInfo,regionInfo)" size="medium"
                       v-model="infoType">
@@ -8,7 +7,7 @@
         <el-radio-button label="0">我要上车</el-radio-button>
       </el-radio-group>
     </div>
-    <div align="right" style="margin: 30px;">
+    <div align="right" style="margin-bottom: 30px;">
       <el-dropdown>
         <el-button type="primary">
           {{serviceInput}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -53,7 +52,7 @@
         :center="true"
         :title=title+region
         :visible.sync="centerDialogVisible"
-        width="50%"
+        width="70%"
     >
       <h3 align="center">以每月 {{price}} 的价格,至少订阅 {{subscriptionDate}} 个月.{{description}}</h3>
       <div v-if="isNaN(info)">
@@ -89,10 +88,11 @@
         <p style="text-align: center;color: #C0C4CC">您的 Telegram ID 将会通过加密通道推送给他, 不需要再次填写</p>
       </div>
       <span class="dialog-footer" slot="footer">
-    <el-button @click="centerDialogVisible = false">取 消</el-button>
-    <el-button @click="submit" type="primary">
+         <el-button @click="submit" type="primary">
       {{isLogin}}
     </el-button>
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+
   </span>
     </el-dialog>
     <el-dialog
@@ -170,13 +170,13 @@
                 message: "留言成功!",
                 type: 'success'
               });
-              this.centerDialogVisible=false
+              this.centerDialogVisible = false
             } else {
               this.$message.error(response.data.msg);
             }
           })
-        }else {
-          this.dialogVisible=true
+        } else {
+          this.dialogVisible = true
         }
       },
 
@@ -237,7 +237,7 @@
         this.description = row.description;
         this.region = row.region;
         this.info = row.info
-        this.taxiID=row.id;
+        this.taxiID = row.id;
       },
       selectServiceType(serviceType, itemName) {
         this.serviceInput = itemName;
@@ -278,6 +278,10 @@
 </script>
 
 <style>
+
+  span, b {
+    line-height: 22px
+  }
 
   .el-dropdown + .el-dropdown {
     margin-left: 15px;

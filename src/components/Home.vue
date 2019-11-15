@@ -1,6 +1,4 @@
 <template>
-
-
   <div id="app">
     <el-container class="con_section">
       <el-header class="blueheader">
@@ -26,11 +24,18 @@
             <i class="el-icon-edit"></i>
             <span slot="title">发布信息</span>
           </el-menu-item>
+          <el-menu-item index="3">
+            <i class="el-icon-service"></i>
+            <span slot="title">官方群组</span>
+          </el-menu-item>
+          <el-menu-item index="4">
+            <i class="el-icon-user"></i>
+            <span slot="title">官方Bot</span>
+          </el-menu-item>
         </el-menu>
         <!-- Callback mode -->
         <el-main class="home_main">
           <el-col :span="24" class="breadcrumb-container">
-
           </el-col>
           <el-col :span="24">
             <div style="margin-top:10px">
@@ -42,12 +47,41 @@
     </el-container>
     <el-dialog
         title="登录"
+        style="text-align:center;"
         :visible.sync="dialogVisible"
-        width="20%" center>
-         <vue-telegram-login
-             @callback="login"
-             mode="callback"
-             telegram-login="qupinche_bot"></vue-telegram-login>
+        width="55%">
+      <vue-telegram-login
+          class=" el-link--success is-underline"
+          style="box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 12px 0px;"
+          @callback="login"
+          mode="callback"
+          telegram-login="qupinche_bot"></vue-telegram-login>
+    </el-dialog>
+    <el-dialog
+        title="群组"
+        :visible.sync="dialogVisible2"
+        style="text-align:center;"
+        width="55%">
+      <a href="https:////t.me/gotaxi_tg " class="el-link el-link--success is-underline"
+         style="box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 12px 0px;">
+        <div class="el-link--inner" style="text-align: center;">
+          <i class="el-icon-s-promotion"></i>
+          <p>点击跳转到官方群组</p>
+        </div>
+      </a>
+    </el-dialog>
+    <el-dialog
+        title="机器人"
+        :visible.sync="dialogVisible3"
+        style="text-align:center;"
+        width="55%">
+      <a href="https:////t.me/qupinche_bot" class="el-link el-link--success is-underline"
+         style="box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 12px 0px;">
+        <div class="el-link--inner" style="text-align: center">
+          <i class="el-icon-s-promotion"></i>
+          <p>点击跳转到官方Bot</p>
+        </div>
+      </a>
     </el-dialog>
   </div>
 </template>
@@ -55,6 +89,7 @@
 <script>
   import {vueTelegramLogin} from 'vue-telegram-login'
   import ElLink from "element-ui/packages/link/src/main";
+
   export default {
     name: 'app',
     components: {ElLink, vueTelegramLogin},
@@ -64,7 +99,9 @@
         collapseBtnClick: false,
         isCollapse: true,
         loginLabel,
-        dialogVisible: false
+        dialogVisible: false,
+        dialogVisible2: false,
+        dialogVisible3: false
       }
     },
     methods: {
@@ -110,21 +147,19 @@
       handleSelect(key) {
         switch (key) {
           case '1':
-            if (!this._isMobile()) {
-              this.$router.push('/Pc_InfoList')
-            } else {
-              this.$router.push('/M_InfoList')
-            }
+            this.$router.push('/InfoList')
             break
           case '2':
-            if (!this._isMobile()) {
-              this.$router.push('/Pc_InfoRelease')
-            } else {
-              this.$router.push('/M_InfoRelease')
-            }
+            this.$router.push('/InfoRelease')
             break
           case '#':
-            this.dialogVisible=true
+            this.dialogVisible = true
+            break
+          case '3':
+            this.dialogVisible2 = true
+            break
+          case '4':
+            this.dialogVisible3 = true
             break
         }
       },
@@ -147,9 +182,19 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .el-link, .el-transfer-panel__filter .el-icon-circle-close .el-link--success is-underline {
+    /* cursor: pointer; */
+    width: 70%;
+    margin: 0;
+  }
+
   .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 200px;
+    width: 150px;
     min-height: 400px;
+  }
+
+  .el-menu {
+    width: 65px;
   }
 
   .con_section {
@@ -197,6 +242,7 @@
 
   .home_main {
     padding: 10px;
+    width: 0;
   }
 
   .breadcrumb-container .title {
