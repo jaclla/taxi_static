@@ -77,7 +77,7 @@
       <div v-else>
         <p style="text-align: center;color: #C0C4CC"> 该用户希望自己的联系方式保密. 请通过留言的方式联系他.</p>
       </div>
-      <div style="margin: 0 auto;width: 30%" v-if="this.isLogin === '给他留言'">
+      <div style="margin: 0 auto;width: 70%" v-if="this.isLogin === '给他留言'">
         <el-input
             :placeholder=this.textarea
             maxlength="20"
@@ -85,7 +85,7 @@
             type="text"
             v-model="text"
         />
-        <p style="text-align: center;color: #C0C4CC">您的 Telegram ID 将会通过加密通道推送给他, 不需要再次填写</p>
+        <span style="text-align: center;color: #C0C4CC">您的 Telegram ID 将会通过加密通道推送给他, 不需要再次填写</span>
       </div>
       <span class="dialog-footer" slot="footer">
          <el-button @click="submit" type="primary">
