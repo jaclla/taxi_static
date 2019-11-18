@@ -9,7 +9,8 @@
           <el-dropdown-item @click.native="selectServiceType(item.itemValue,item.itemName)"
                             command="item.itemValue"
                             v-for="(item,index) in serviceType">
-            <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/> {{item.itemName}}
+            <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/>
+            {{item.itemName}}
 
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -22,14 +23,15 @@
           <el-dropdown-item @click.native="selectRegion(item.itemValue,item.itemName)"
                             command="item.itemValue"
                             v-for="(item,index) in regionList">
-             <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/> {{item.itemName}}
+            <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/>
+            {{item.itemName}}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button @click="reloadTable()" circle icon="el-icon-refresh-right"
                  style="margin-left:10px;margin-right:10px"
                  type="success"
-                 ></el-button>
+      ></el-button>
     </div>
     <div align="center" style="width: 100%">
       <el-radio-group @change="getList(infoType,serviceTypeInfo,regionInfo)" size="medium"
@@ -311,17 +313,20 @@
      overflow: auto;
      color: #666666;
   }
+
   .el-radio-button:first-child .el-radio-button__inner {
     border-left: 1px solid #DCDFE6;
     border-radius: 4px 0 0 4px;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
     width: 100%;
   }
+
   .el-radio-button:last-child .el-radio-button__inner {
     border-radius: 0 4px 4px 0;
     width: 100%;
   }
+
   .menu {
     position: absolute;
     right: 0px;
