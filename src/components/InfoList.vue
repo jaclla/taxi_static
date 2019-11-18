@@ -9,7 +9,7 @@
           <el-dropdown-item @click.native="selectServiceType(item.itemValue,item.itemName)"
                             command="item.itemValue"
                             v-for="(item,index) in serviceType">
-            <img :src=item.logo style="height: 30px"/> {{item.itemName}}
+            <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/> {{item.itemName}}
 
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -22,7 +22,7 @@
           <el-dropdown-item @click.native="selectRegion(item.itemValue,item.itemName)"
                             command="item.itemValue"
                             v-for="(item,index) in regionList">
-             <img :src=item.logo style="height: 30px"/> {{item.itemName}}
+             <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/> {{item.itemName}}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
