@@ -134,7 +134,7 @@
               }else {
                 this.$message.error(response.data.msg);
               }
-            })
+            }).catch()
           } else {
             console.log('error submit!!');
             return false;
@@ -156,7 +156,7 @@
       .then(response => {
         (this.serviceType = response.data.data.serviceType);
         (this.region = response.data.data.region)
-      })
+      }).catch()
     }
   }
 </script>

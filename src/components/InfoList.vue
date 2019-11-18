@@ -1,38 +1,42 @@
 <template>
   <div>
-    <div align="center" style="margin: 30px;">
-      <el-radio-group @change="getList(infoType,serviceTypeInfo,regionInfo)" size="medium"
-                      v-model="infoType">
-        <el-radio-button label="1">我要开车</el-radio-button>
-        <el-radio-button label="0">我要上车</el-radio-button>
-      </el-radio-group>
-    </div>
-    <div align="right" style="margin-bottom: 30px;">
+    <div align="center" style="margin-bottom: 30px;" class="menu">
       <el-dropdown>
-        <el-button type="primary">
+        <el-button type="success">
           {{serviceInput}}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="selectServiceType(item.itemValue,item.itemName)"
                             command="item.itemValue"
-                            v-for="(item,index) in serviceType">{{item.itemName}}
+                            v-for="(item,index) in serviceType">
+            <img :src=item.logo style="height: 30px"/> {{item.itemName}}
+
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-dropdown>
-        <el-button type="primary">
+        <el-button type="success">
           {{regionInput}}<i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="selectRegion(item.itemValue,item.itemName)"
                             command="item.itemValue"
-                            v-for="(item,index) in regionList">{{item.itemName}}
+                            v-for="(item,index) in regionList">
+             <img :src=item.logo style="height: 30px"/> {{item.itemName}}
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button @click="reloadTable()" circle icon="el-icon-refresh-right"
-                 style="margin-left: 30px"
-                 type="primary"></el-button>
+                 style="margin-left:10px;margin-right:10px"
+                 type="success"
+                 ></el-button>
+    </div>
+    <div align="center" style="width: 100%">
+      <el-radio-group @change="getList(infoType,serviceTypeInfo,regionInfo)" size="medium"
+                      v-model="infoType" style="width: 100%">
+        <el-radio-button label="1" style="width: 50%">我要开车</el-radio-button>
+        <el-radio-button label="0" style="width: 50%">我要上车</el-radio-button>
+      </el-radio-group>
     </div>
     <div :key="item.itemValue" v-for="item in tableData">
       <div @click="selectDetails(item)">
@@ -178,6 +182,7 @@
               this.$message.error(response.data.msg);
             }
           })
+          .catch()
         } else {
           this.dialogVisible = true
         }
@@ -219,7 +224,7 @@
             } else {
               this.$message.error(response.data.msg);
             }
-          })
+          }).catch()
         }
       },
       getList(type, serviceType, region) {
@@ -230,7 +235,7 @@
         });
         this.axios
         .post('/api/taxiInfo/selectList', data)
-        .then(response => (this.tableData = response.data.data))
+        .then(response => (this.tableData = response.data.data)).catch()
       },
       selectDetails(row) {
         this.centerDialogVisible = true;
@@ -267,7 +272,7 @@
       .then(response => {
         (this.serviceType = response.data.data.serviceType);
         (this.regionList = response.data.data.region)
-      });
+      }).catch();
       var hasToken = this.$storage.has('token');
       if (hasToken) {
         this.isLogin = '给他留言'
@@ -281,7 +286,6 @@
 </script>
 
 <style>
-
   span, b {
     line-height: 22px
   }
@@ -307,6 +311,20 @@
      overflow: auto;
      color: #666666;
   }
-
-
+  .el-radio-button:first-child .el-radio-button__inner {
+    border-left: 1px solid #DCDFE6;
+    border-radius: 4px 0 0 4px;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    width: 100%;
+  }
+  .el-radio-button:last-child .el-radio-button__inner {
+    border-radius: 0 4px 4px 0;
+    width: 100%;
+  }
+  .menu {
+    position: absolute;
+    right: 0px;
+    top: 6px;
+  }
 </style>
