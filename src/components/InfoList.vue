@@ -1,33 +1,24 @@
 <template>
   <div>
-    <div align="center" style="margin-bottom: 30px;" class="menu">
-      <el-dropdown>
-        <el-button type="success">
-          {{serviceInput}}<i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="selectServiceType(item.itemValue,item.itemName)"
-                            command="item.itemValue"
-                            v-for="(item,index) in serviceType">
-            <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/>
-            {{item.itemName}}
-
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <el-dropdown>
-        <el-button type="success">
-          {{regionInput}}<i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="selectRegion(item.itemValue,item.itemName)"
-                            command="item.itemValue"
-                            v-for="(item,index) in regionList">
-            <img :src=item.logo style="height: 30px; vertical-align: middle;width:40px;border:0;"/>
-            {{item.itemName}}
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+    <div align="center" style="margin-bottom: 30px;" id="menu">
+      <el-select v-model="regionInput" value-key="regionList" placeholder="所有区域"
+                 @change="selectRegion" style="width: 120px;margin-right: 10px">
+        <template slot="prefix"><img class="prefix" :src="regionList.logo"/></template>
+        <el-option v-for="item in regionList" :key="item.itemValue" :label="item.itemName"
+                   :value="item">
+          <img :src="item.logo" style="height: 30px; vertical-align: middle;width:40px;border:0;">
+          {{ item.itemName }}
+        </el-option>
+      </el-select>
+      <el-select v-model="serviceInput" value-key="serviceType" placeholder="所有服务"
+                 @change="selectServiceType" style="width: 120px">
+        <template slot="prefix"><img class="prefix" :src="serviceType.logo"/></template>
+        <el-option v-for="item in serviceType" :key="item.itemValue" :label="item.itemName"
+                   :value="item" >
+          <img :src="item.logo" style="height: 30px; vertical-align: middle;width:40px;border:0;">
+          {{ item.itemName }}
+        </el-option>
+      </el-select>
       <el-button @click="reloadTable()" circle icon="el-icon-refresh-right"
                  style="margin-left:10px;margin-right:10px"
                  type="success"
@@ -124,8 +115,6 @@
     components: {vueTelegramLogin},
     data() {
       // eslint-disable-next-line no-unused-vars
-      var serviceInput = "所有服务";
-      var regionInput = "所有区域";
       var tableData = [];
       var serviceType = [];
       var regionList = [];
@@ -140,14 +129,26 @@
       var isLogin = '通过Telegram留言';
       var taxiID;
       return {
+        outlet: [{
+          value: 'mcd',
+          label: 'McDonald',
+          photo: 'https://upload.wikimedia.org/wikipedia/commons/5/50/McDonald%27s_SVG_logo.svg'
+        }, {
+          value: 'kfc',
+          label: 'KFC',
+          photo: 'http://www.kfcku.com/themes/kfc_indonesia/images/kfc-indonesia-logo.png'
+        }, {
+          value: 'pizzahut',
+          label: 'Pizza Hut',
+          photo: 'https://vignette.wikia.nocookie.net/logopedia/images/b/b3/Pizza_Hut_Logo_2.png/revision/latest?cb=20161129133747'
+        }],
+        value: null,
         infoType: '1',
         tableData,
         serviceType,
         regionList,
         serviceTypeInfo,
         regionInfo,
-        serviceInput,
-        regionInput,
         centerDialogVisible: false,
         dialogVisible: false,
         title,
@@ -159,10 +160,11 @@
         isLogin,
         text: '',
         textarea: '我想上车，请问还有位置吗？',
-        taxiID
+        taxiID,
+        serviceInput: '',
+        regionInput: ''
       }
     },
-    return: {},
     methods: {
       submit() {
         if (this.isLogin === '给他留言') {
@@ -249,25 +251,26 @@
         this.info = row.info
         this.taxiID = row.id;
       },
-      selectServiceType(serviceType, itemName) {
-        this.serviceInput = itemName;
-        this.serviceTypeInfo = serviceType;
+      selectServiceType(serviceType) {
+        this.serviceTypeInfo = serviceType.itemValue;
+        this.serviceInput=serviceType.itemName;
         this.getList(this.infoType, this.serviceTypeInfo, this.regionInfo)
       },
-      selectRegion(region, itemName) {
-        this.regionInput = itemName;
-        this.regionInfo = region;
+      selectRegion(region) {
+        this.regionInfo = region.itemValue;
+        this.regionInput=region.itemName;
         this.getList(this.infoType, this.serviceTypeInfo, this.regionInfo)
       },
       reloadTable() {
         this.getList(1);
-        this.serviceInput = "所有服务";
-        this.regionInput = "所有区域";
+        this.serviceInput = '';
+        this.regionInput = '';
         this.serviceTypeInfo = '';
         this.regionInfo = ''
       }
     },
     created() {
+      this.value = this.outlet[0]
       this.getList('1');
       this.axios
       .get('/api/common/dictionary')
@@ -327,9 +330,10 @@
     width: 100%;
   }
 
-  .menu {
+  #menu {
     position: absolute;
     right: 0px;
     top: 6px;
   }
+
 </style>
