@@ -88,11 +88,9 @@
 
 <script>
   import {vueTelegramLogin} from 'vue-telegram-login'
-  import ElLink from "element-ui/packages/link/src/main";
-
   export default {
     name: 'app',
-    components: {ElLink, vueTelegramLogin},
+    components: {vueTelegramLogin},
     data() {
       var loginLabel = ''
       return {
@@ -165,11 +163,6 @@
       },
       changeStatus() {
         this.isCollapse = !this.isCollapse;
-      },
-      _isMobile() {
-        let flag = navigator.userAgent.match(
-            /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-        return flag;
       }
     }, created() {
       this.handleSelect('1')

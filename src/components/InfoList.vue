@@ -1,22 +1,22 @@
 <template>
   <div>
     <div align="center" style="margin-bottom: 30px;" id="menu">
-      <el-select v-model="regionInput" value-key="regionList" placeholder="所有区域"
-                 @change="selectRegion" style="width: 120px;margin-right: 10px">
+      <el-select v-model="regionInput" value-key="regionList" placeholder="区域"
+                 @change="selectRegion" style="width: 90px;margin-right: 10px">
         <template slot="prefix"><img class="prefix" :src="regionList.logo"/></template>
         <el-option v-for="item in regionList" :key="item.itemValue" :label="item.itemName"
                    :value="item">
           <img :src="item.logo" style="height: 30px; vertical-align: middle;width:40px;border:0;">
-          {{ item.itemName }}
+          <b style="color: #409EFF">{{ item.itemName }}</b>
         </el-option>
       </el-select>
-      <el-select v-model="serviceInput" value-key="serviceType" placeholder="所有服务"
-                 @change="selectServiceType" style="width: 120px">
+      <el-select v-model="serviceInput" value-key="serviceType" placeholder="媒体服务"
+                 @change="selectServiceType" style="width: 150px">
         <template slot="prefix"><img class="prefix" :src="serviceType.logo"/></template>
         <el-option v-for="item in serviceType" :key="item.itemValue" :label="item.itemName"
                    :value="item" >
           <img :src="item.logo" style="height: 30px; vertical-align: middle;width:40px;border:0;">
-          {{ item.itemName }}
+          <b style="color: #409EFF">{{ item.itemName }}</b>
         </el-option>
       </el-select>
       <el-button @click="reloadTable()" circle icon="el-icon-refresh-right"
